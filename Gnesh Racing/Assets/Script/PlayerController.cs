@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
-   public float speed;
-    public float rotationspeed;
+ 
+    public float speed; //player Speed
+    public float rotationspeed; // player rotation speed
+    public HudManager hudManager;
+    private Stats m_Stats;
 
-    
+    private void Awake()
+    {
+        m_Stats = GetComponent<Stats>();
+        hudManager.UpdateScoreText(m_Stats.Score);
+    }
     void FixedUpdate()
     {
+        // player Movement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -20,7 +30,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(movement * speed * Time.fixedDeltaTime);
 
        
-
+    // direction change Movements
    
         if (Input.GetKey(KeyCode.LeftArrow))
             transform.Rotate(-Vector3.up * rotationspeed * Time.deltaTime);
@@ -30,11 +40,25 @@ public class PlayerController : MonoBehaviour
     }
     
   
-
+// collider info
     void OnTriggerEnter(Collider collided) {
-        if (collided.tag == "break") { 
+        if (collided.name == "Wall(Clone)") { 
              Debug.Log("break");
-
+            
         }
+
     }
+
+    public void ReceiveScore()
+    {
+        m_Stats.UpdateScore(1);
+        hudManager.UpdateScoreText(m_Stats.Score);
+    }
+    
+     public void ReceiveDamageScore()
+    {
+        m_Stats.DamageScore(1);
+        hudManager.UpdateScoreText(m_Stats.Score);
+    }
+
 }
