@@ -42,8 +42,9 @@ public class PlayerController : MonoBehaviour
   
 // collider info
     void OnTriggerEnter(Collider collided) {
-        if (collided.name == "Wall(Clone)") { 
-             Debug.Log("break");
+        if (collided.name == "Cube") { 
+            //  Debug.Log("break");
+            Application.OpenURL("https://www.jnec.org/");
             
         }
 
